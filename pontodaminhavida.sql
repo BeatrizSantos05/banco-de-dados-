@@ -68,52 +68,23 @@ INSERT INTO item_pedido (id_item, id_pedido, produto, quantidade, preco_unitario
 (11, 108, 'Smash Burger', 1, 25.00),
 (12, 108, 'Suco Natural', 2, 7.00);
 
--- Questão 1
 SELECT c.nome, p.id_pedido, p.data_pedido
 FROM cliente c
 INNER JOIN pedido p ON c.id_cliente = p.id_cliente;
 
-
--- Questão 2
 SELECT p.id_pedido, r.nome AS restaurante, r.categoria
 FROM pedido p
 INNER JOIN restaurante r ON p.id_restaurante = r.id_restaurante
 WHERE r.categoria = 'Pizzaria';
 
-
--- Questão 3
 SELECT c.nome, p.id_pedido
 FROM cliente c
 LEFT JOIN pedido p ON c.id_cliente = p.id_cliente;
 
+SELECT c.nome, p.data_pedido FROM cliente c INNER JOIN pedido p ON c.id_cliente = p.id_cliente;
 
--- Questão 4
-SELECT c.nome AS nome_cliente, r.nome AS nome_restaurante, p.data_pedido
-FROM pedido p
-INNER JOIN cliente c ON p.id_cliente = c.id_cliente
-INNER JOIN restaurante r ON p.id_restaurante = r.id_restaurante;
+SELECT c.nome, r.nome, p.data_pedido FROM pedido p INNER JOIN cliente c ON p.id_cliente = c.id_cliente INNER JOIN restaurante r ON p.id_restaurante = r.id_restaurante;
 
+SELECT id_cliente, COUNT(*) AS qtde FROM pedido GROUP BY id_cliente;
 
--- Questão 5
-SELECT c.nome AS cliente, r.nome AS restaurante, ip.produto
-FROM pedido p
-INNER JOIN cliente c ON p.id_cliente = c.id_cliente
-INNER JOIN restaurante r ON p.id_restaurante = r.id_restaurante
-INNER JOIN item_pedido ip ON p.id_pedido = ip.id_pedido
-WHERE c.cidade = 'Aquidauana' AND r.categoria = 'Lanchonete';
-
-
--- Questão 6
-SELECT c.nome, COUNT(p.id_pedido) AS total_pedidos
-FROM cliente c
-INNER JOIN pedido p ON c.id_cliente = p.id_cliente
-GROUP BY c.id_cliente, c.nome
-ORDER BY total_pedidos DESC;
-
-
--- Questão 7
-SELECT c.nome, COUNT(p.id_pedido) AS total
-FROM cliente c
-INNER JOIN pedido p ON c.id_cliente = p.id_cliente
-GROUP BY c.id_cliente, c.nome
-HAVING COUNT(p.id_pedido) >= 3;
+SELECT id_restaurante, COUNT(*) AS qtde FROM pedido GROUP BY id_restaurante HAVING COUNT(*) >= 3;
